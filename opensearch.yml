@@ -1,0 +1,92 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template to create an OpenSearch serverless encryption policy, data access policy and collection
+
+Parameters:
+  AdminUserArn:
+    Type: String
+    Description: The ARN of the IAM user or Role to be used as the OpenSearch Serverless administrator
+    MinLength: 20
+    AllowedPattern: ^arn:[\w]*:iam::\d{12}:[\w.,-/]*$
+
+Resources:
+  
+  DataAccessPolicy:
+    Type: AWS::OpenSearchServerless::AccessPolicy
+    Properties:
+      Name: !Sub ${AWS::StackName}-access-policy
+      Type: data
+      Description: !Sub Access policy for ${AWS::StackName}-collection collection
+      Policy: !Sub >-
+        [
+          {
+            "Description":"Access for cfn user",
+            "Rules":
+            [
+              {
+                "ResourceType":"index",
+                "Resource":["index/*/*"],
+                "Permission":["aoss:*"]
+              },
+              {
+                "ResourceType":"collection",
+                "Resource":["collection/${AWS::StackName}-collection"],
+                "Permission":["aoss:*"]
+              }
+            ],
+            "Principal":["${AdminUserArn}"]
+          }
+        ]
+  NetworkPolicy:
+    Type: AWS::OpenSearchServerless::SecurityPolicy
+    Properties:
+      Name: !Sub ${AWS::StackName}-network-policy
+      Type: network
+      Description: !Sub Network policy for ${AWS::StackName}-collection collection
+      Policy: !Sub >-
+        [
+          {
+            "Rules":
+            [
+              {
+                "ResourceType":"collection",
+                "Resource":["collection/${AWS::StackName}-collection"]
+              }, 
+              {
+                "ResourceType":"dashboard",
+                "Resource":["collection/${AWS::StackName}-collection"]
+              }
+            ],
+            "AllowFromPublic":true
+          }
+        ]
+  EncryptionPolicy:
+    Type: AWS::OpenSearchServerless::SecurityPolicy
+    Properties:
+      Name: !Sub ${AWS::StackName}-security-policy
+      Type: encryption
+      Description: !Sub Encryption policy for ${AWS::StackName}-collection collection
+      Policy: !Sub >-
+        {
+          "Rules":
+          [
+            {
+              "ResourceType":"collection",
+              "Resource":["collection/${AWS::StackName}-collection"]
+            }
+          ],
+          "AWSOwnedKey":true
+        }
+  Collection:
+    Type: AWS::OpenSearchServerless::Collection
+    Properties:
+      Name: !Sub ${AWS::StackName}-collection
+      Type: VECTORSEARCH
+      Description: Collection to holds timeseries data
+    DependsOn: EncryptionPolicy
+
+Outputs:
+  DashboardURL:
+    Value: !GetAtt Collection.DashboardEndpoint
+  HostName:
+    Value: !GetAtt Collection.CollectionEndpoint

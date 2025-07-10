@@ -1,0 +1,44 @@
+{
+  "images": [
+    {
+      "image_name": "blessing_sacrament.jpeg",
+      "description": "A religious scene depicting the blessing of the sacrament"
+    },
+    {
+      "image_name": "christ_and_samaritan_woman_bloch.jpeg",
+      "description": "Painting by Carl Bloch showing Christ speaking with the Samaritan woman at the well"
+    },
+    {
+      "image_name": "christ_rich_young_ruler_hofmann.jpeg",
+      "description": "Painting by Heinrich Hofmann depicting Christ's encounter with the rich young ruler"
+    },
+    {
+      "image_name": "jesus_cleansing_temple.jpeg",
+      "description": "Biblical scene showing Jesus cleansing the temple of money changers"
+    },
+    {
+      "image_name": "pioneers_crossing_river.jpeg",
+      "description": "Historical scene of pioneers crossing a river during westward migration"
+    },
+    {
+      "image_name": "prayer.jpeg",
+      "description": "A scene depicting prayer or religious devotion"
+    },
+    {
+      "image_name": "salt_lake_city_temple.jpeg",
+      "description": "The Salt Lake City Temple of The Church of Jesus Christ of Latter-day Saints"
+    },
+    {
+      "image_name": "saving_the_book_of_commandments.jpeg",
+      "description": "Historical scene depicting the saving of the Book of Commandments from destruction"
+    },
+    {
+      "image_name": "dog_wig.jpg",
+      "description": "A dog wearing a wig"
+    },
+    {
+      "image_name": "dog_wig2.jpg",
+      "description": "A bulldog wearing a wig"
+    }
+  ]
+}
